@@ -11,9 +11,9 @@ app.get('/users', (req, res) => {
 })
 
 app.post('/users', async (req, res) => {
-    try {
-        const salt = bcrypt.genSalt(10)
-    }
+    // try {
+    //     const salt = bcrypt.genSalt(10)
+    // }
     const user = { name: req.body.name, password: req.body.password }
     users.push(user)
     res.status(201).send()
