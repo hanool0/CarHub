@@ -27,3 +27,7 @@ html {
   padding: 50px 60px 70px;
   text-align: center;
 }
+
+.text-center { 
+  text-align: center;
+}
