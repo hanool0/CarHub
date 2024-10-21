@@ -1,0 +1,26 @@
+<html>
+    <body>
+        <button class = "newuser" button id="redirectButton">Register</button>
+        <div class = "search">
+            <input type ="text" placeholder="Enter car brand" spellcheck="false">
+        </div> 
+    </body>
+    <script>
+        async function checkCarBrand(make) {
+            const response = await fetch(apiUrl + make + `&appid=${apiKey}`);
+            var data = await response.json();
+        
+            console.log(data);
+        
+            document.querySelector(".make").innerHTML = data.make;
+        }
+            document.getElementByld("redirectButton").addEventListener("click", redirect);
+            function redirect(){
+                window.location = "home.ejs";
+            }
+        
+
+    </script>    
+
+</html>
+    
