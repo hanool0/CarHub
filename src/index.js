@@ -6,30 +6,30 @@ const collection = require("./mongodb")
 
 app.use(express.json())
 app.set("view engine", "ejs")
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({ extended: false }))
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.render("login")
 })
 
-app.get("/signup",(req,res)=>{
+app.get("/signup", (req, res) => {
     res.render("signup")
 })
 
-app.post("/signup", async (req,res)=>{
+app.post("/signup", async (req, res) => {
 
-const data={
-    name:req.body.name,
-    password:req.body.password
-}
+    const data = {
+        name: req.body.name,
+        password: req.body.password
+    }
 
-await collection.insertMany([data])
+    await collection.insertMany([data])
 
-res.render("home")
+    res.render("home")
 
 
 })
 
-app.listen(3000, () =>{
+app.listen(3000, () => {
     console.log("port connected");
 })

@@ -1,25 +1,37 @@
-const mongoose=require("mongoose")
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-mongoose.connect("mongodb://localhost:27017/LoginSignup")
-.then(()=>{
-    console.log("mongodb connected");
-})
-.catch(()=>{
-    console.log("failed to connect");
-})
+const Schema = mongoose.Schema;
 
-const LogInSchema = new mongoose.Schema({
-    username:{
-        type:String,
-        required:true
+const userSchema = new Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
     },
-    password:{
-        type:String,
-        required:true
+    password: {
+        type: String,
+        required: true,
+    },
+}, { timestamps: true });
+
+userSchema.pre('save', async function (next) {
+    try {
+        if (!this.isModified('password')) return next();
+
+        const salt = await bcrypt.genSalt(10);  
+
+        const hashedPassword = await bcrypt.hash(this.password, salt); //turns the password random characters to prevent attacks from outside parties
+
+        this.password = hashedPassword;
+
+        next();
+    } catch (error) {
+        next(error);
     }
-})
+});
 
 
-const collection = new mongoose.model("Collection1", LogInSchema)
+module.exports = mongoose.model("User", userSchema);
 
-module.exports = collection

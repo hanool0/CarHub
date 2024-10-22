@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width" />
     <title>CarHub</title>
     <link href="/stylesheets/register.css" rel="stylesheet" />
-    <script
-      src="https://kit.fontawesome.com/c4254e24a8.js"
-      crossorigin="anonymous"
-    ></script>
   </head>
 
   <body>
@@ -16,24 +12,19 @@
       <div class="form-box">
         <p style = "font-size: 20px">Create your account</p>
         <form action="/signup" method="post" >
-          <input placeholder="Name" name="name" type="text">
+          <input placeholder="Name" name="username" type="text">
           <br>
           <input placeholder="Password" name="password" type="password">
           <br>
-          <input class="sub" type="submit">
+          <input placeholder="Confirm Password" name="confirmPassword" type="password">
+          <br>
+          <button class="button" type="submit">Create Account</button>
       </form>
-          <div class="btn-field">
-            <button id="redirectButton">Create account</button>
-          </div>
+          
       </div>
     </div>
   </body>
   <script>
-    document
-      .getElementById("redirectButton")
-      .addEventListener("click", redirect);
-    function redirect() {
-      window.location = "home";
-    }
+    
   </script>
 </html>
