@@ -10,5 +10,9 @@ router.get('/', (req, res) => {
 router.get('/home', (req, res) => {
     res.render('home', {title: "login"});
 })
-
+router.post('/login', (req,res)=>{
+    console.log(req.body.username1);
+    res.sendStatus(200); 
+    
+})
 module.exports = router;
