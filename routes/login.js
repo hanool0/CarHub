@@ -25,7 +25,10 @@ router.get('/home', (req, res) => {
     res.render('home', { title: "home", passedVariable });
 })
 router.get('/noobie', (req, res) => {
-    let passedVariable = JSON.parse(req.query.valid);
+    let passedVariable = null;
+    if (req.query && req.query.valid) {
+        passedVariable = JSON.parse(req.query.valid)||null;
+    }
 
     res.render('noobie', { title: "noobie", passedVariable });
 })

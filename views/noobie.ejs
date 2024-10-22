@@ -1,12 +1,60 @@
 <html>
     <body>
-        <button class = "newuser" button id="redirectButton">FindCar</button>
+        <button class = "newuser" id="searchButton">FindCar</button>
         <div class = "search">
-            <input type ="text" placeholder="Enter car brand" spellcheck="false">
-        </div> 
+            <input type="text" placeholder="Enter car model" spellcheck="false" id="modelInput">
+        </div>
+        <div id = "carDetails">
+            
+        </div>
     </body>
     <script>
-        
+        document.getElementById('searchButton').addEventListener('click', () => {
+            console.log('click')
+            const modelInput = document.getElementById('modelInput').value.trim();
+            const carDetailsDiv = document.getElementById('carDetails');
+
+            // Clear previous results
+            carDetailsDiv.innerHTML = '';
+
+            if (!modelInput) {
+                carDetailsDiv.innerHTML = '<p class="error">Please enter a car model.</p>';
+                return;
+            }
+
+            // Encode the model to ensure it's URL-safe
+            const encodedModel = encodeURIComponent(modelInput);
+
+            // Display a loading message
+            carDetailsDiv.innerHTML = '<p class="loading">Loading...</p>';
+
+            // Send a GET request to /carGet with the model as a query parameter
+            fetch(`/getCar?model=${encodedModel}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error: ${response.status} ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        carDetailsDiv.innerHTML = `<p class="error">${data.error}</p>`;
+                        return;
+                    }
+
+                    // Display the car details
+                    carDetailsDiv.innerHTML = 
+                        `<h3>Car Details:</h3>
+                        <p><strong>Make:</strong> ${data.make}</p>
+                        <p><strong>Year:</strong> ${data.year}</p>
+                        <p><strong>Drivetrain:</strong> ${data.drive}</p>`
+                    ;
+                })
+                .catch(error => {
+                    console.error('Error fetching car data:', error);
+                    carDetailsDiv.innerHTML = `<p class="error">Failed to fetch car data. Please try again.</p>`;
+                });
+        });
     </script>    
 
 </html>
