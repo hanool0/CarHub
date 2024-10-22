@@ -12,15 +12,54 @@
 
 // module.exports = car.model("User", UserSchema);
 
-const request = require('request');
+// const axios = require('axios');
 
-var model = 'camry'
-request.get({
-  url: 'https://api.api-ninjas.com/v1/cars?model=' + model,
-  headers: {
-    'X-Api-Key': 'yiR+VnnJGsxdG7Tc8bsQ1A==6KNGDh3zIXneFKSd'
-  },
-}, function(error, response, body) {
-  if(error) return console.error('Request failed:', error);
-  else if(response.statusCode != 200) return console.error('Error:', response.statusCode, body.toString('utf8'));
-  else console.log(body) })
+// var model = 'camry'
+// function getData(input) {
+//   var results;
+//   axios.defaults.headers['X-API-KEY'] = 'yiR+VnnJGsxdG7Tc8bsQ1A==6KNGDh3zIXneFKSd';
+//   axios.get('https://api.api-ninjas.com/v1/cars?model=' + model).then(res => results = res.data).catch(err => console.log(err))
+//   results = JSON.stringify(results)
+//   console.log(results)
+//   return results;
+// }
+// module.exports = { getData }
+
+const request = require('request');
+const axios = require('axios');
+
+async function getCar(model) {
+  const url = 'https://api.api-ninjas.com/v1/cars';
+  const apiKey = 'yiR+VnnJGsxdG7Tc8bsQ1A==6KNGDh3zIXneFKSd';
+
+  try {
+    const response = await axios.get(url, {
+      params: { model },
+      headers: { 'X-Api-Key': apiKey },
+    });
+
+    if (response.status !== 200) {
+      throw new Error(`Status Code car body: ${response.status}`);
+    }
+
+    const data = response.data;
+    if (data.length === 0) {
+      throw new Error('No car data found for the given model.');
+    }
+
+    const {make, year, city_mpg, combination_mpg, highway_mpg, cylinders, displacement, drive} = data[0];
+    return {
+      make,
+      year,
+      city_mpg,
+      combination_mpg,
+      highway_mpg,
+      cylinders,
+      displacement,
+      drive,
+    };
+  } catch (error) {
+    console.error('car body error occurred', error);
+  }
+}
+module.exports = getCar
