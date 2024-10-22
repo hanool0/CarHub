@@ -13,132 +13,29 @@
         <br>
       <h2 class="text-center">CarHub</h2>
       <div class = form-box>
-        <form action="/home" class="loginForm">
+        <form action="/login" class="loginForm" method="post">
           <h2 class="text-center">Login</h2>
             <div class="input-group">
                 <label for="username" class="label"><p style = "font-size: 20px">Username:</label></p>
-                <input type="text" id="username" class="input">
+                <input type="text" name="username"id="username" class="input">
                 <span class="error-message"></span>
             </div>
             <br>
             <div class="input-group">
                 <label for="password" class="label"><p style = "font-size: 20px">Password:</label></p>
-                <input type="password" id="password" class="input">
+                <input type="password" name="password"id="password" class="input">
                 <span class="error-message"></span>
             </div>
             <br>
             <button class="button" type="submit">Login</button>
-            <button class = "newuser" button id="redirectButton">New User?</button>
+            <a href = "/signup">Make a new account</a>
         </form>
       </div>
     </div>
     </body>
 
     <script>
-      document.getElementById("redirectButton").addEventListener("click", redirect);
-      function redirect() {
-        window.location = "register";
-      }
 
-      class Login {
-        constructor(form, fields) {
-          this.form = form;
-          this.fields = fields;
-          this.validateonSubmit();
-        }
-
-        validateonSubmit() {
-          let self = this;
-
-          this.form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            var error = 0;
-            self.fields.forEach((field) => {
-              const input = document.querySelector(`#${field}`);
-              if (self.validateFields(input) == false) {
-                error++;
-              }
-            });
-            if (error == 0) {
-              //do login api here
-              localStorage.setItem("auth", 1);
-              this.form.submit();
-            }
-          });
-        }
-
-        validateFields(field) {
-          if (field.value.trim() === "") {
-            this.setStatus(
-              field,
-              `${field.previousElementSibling.innerText} cannot be blank`,
-              "error"
-            );
-            return false;
-          } else {
-            if (field.type == "password") {
-              if (field.value.length < 8) {
-                this.setStatus(
-                  field,
-                  `${field.previousElementSibling.innerText} must be at least 8 characters`,
-                  "error"
-                );
-                return false;
-              } else {
-                this.setStatus(field, null, "success");
-                return true;
-              }
-            } else {
-              this.setStatus(field, null, "success");
-              return true;
-            }
-          }
-        }
-
-        setStatus(field, message, status) {
-          const errorMessage = field.parentElement.querySelector(".error-message");
-
-          if (status == "success") {
-            if (errorMessage) {
-              errorMessage.innerText = "";
-            }
-            field.classList.remove("input-error");
-          }
-
-          if (status == "error") {
-            errorMessage.innerText = message;
-            field.classList.add("input-error");
-          }
-        }
-      }
-
-      const form = document.querySelector(".loginForm");
-      if (form) {
-        const fields = ["username", "password"];
-        const validator = new Login(form, fields);
-      }
-
-      
-      class Auth {
-        constructor() {
-              document.querySelector("body").style.display = "none";
-          const auth = localStorage.getItem("auth");
-          this.validateAuth(auth);
-        }
-
-        validateAuth(auth) {
-          if (auth != 1) {
-            window.location.replace("/");
-          } else {
-                  document.querySelector("body").style.display = "block";
-          }
-        }
-
-        logOut() {
-          localStorage.removeItem("auth");
-          window.location.replace("/");
-        }
-      }
     </script>
   </body>
 </html>

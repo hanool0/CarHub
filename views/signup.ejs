@@ -15,24 +15,16 @@
     <div class="container">
       <div class="form-box">
         <p style = "font-size: 20px">Create your account</p>
-        <form>
-          <div class="input-group">
-            <div class="input-field">
-              <input type="text" placeholder="Username" />
-            </div>
-
-            <div class="input-field">
-              <input type="email" placeholder="Email" />
-            </div>
-
-            <div class="input-field">
-              <input type="password" placeholder="Password" />
-            </div>
-          </div>
+        <form action="/signup" method="post" >
+          <input placeholder="Name" name="name" type="text">
+          <br>
+          <input placeholder="Password" name="password" type="password">
+          <br>
+          <input class="sub" type="submit">
+      </form>
           <div class="btn-field">
             <button id="redirectButton">Create account</button>
           </div>
-        </form>
       </div>
     </div>
   </body>
