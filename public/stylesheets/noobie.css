@@ -42,5 +42,19 @@
   .search:focus {
     border-color: #3498db;
   }
+
+  .addCar{
+    padding: 12px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  .addCar:hover {
+    background-color: #2980b9;
+  }
   
   

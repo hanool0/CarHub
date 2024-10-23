@@ -9,9 +9,8 @@ const mongoURI = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MO
 const bcrypt = require('bcrypt');
 mongoose.connect(mongoURI)
     .then((data) => {
-        console.log('connected to mongodb')
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log("err"));
 
 router.get('/login', (req, res) => {
     res.render('login', { title: "login" });
@@ -37,18 +36,20 @@ router.get('/getCar', async (req, res) => {
     let getCar = await getCarFunction(model)
     res.status(200).json(getCar)
 })
+router.post('/makeCar', async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    updateUser(username, password, req.body.model)
+    res.status(200).json({ message: "Everything went fine" })
+})
 router.post('/login', async (req, res) => {
-    console.log(JSON.stringify(req.body))             //turns json data into string 
     let { username, password } = req.body            //gets username and password into req.body.username & req.body.password
     let successLogin = JSON.stringify(await loginCheck(username, password))
-    console.log(successLogin.status);
     if (JSON.parse(successLogin).status) {
-        console.log("step1");
         res.status(200).redirect('/home?valid=' + successLogin);
 
     }
     else {
-        console.log("step2");
         res.status(400).json(successLogin)
 
     }
@@ -57,7 +58,6 @@ router.post('/login', async (req, res) => {
 router.post('/signup', async (req, res) => {
     let { username, password, confirmPassword } = req.body
     let successSignup = JSON.stringify(await signup(username, password, confirmPassword))
-    console.log(JSON.stringify(req.body))
     if (JSON.parse(successSignup).status) {
         res.status(200).redirect('/noobie?valid=' + successSignup);
     }
@@ -93,4 +93,33 @@ async function loginCheck(username, password) {
         return { status: false, message: "Password isn't the same" }
     }
 
+}
+async function updateUser(username, inputPassword, newCar) {
+    try {
+        // Step 1: Find the user by their username or any unique identifier
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            console.log('User not found');
+            return;
+        }
+
+        // Step 2: Compare the provided password with the stored hashed password
+        const isMatch = await bcrypt.compare(inputPassword, user.password);
+
+        if (!isMatch) {
+            console.log('Incorrect password');
+            return;
+        }
+
+        // Step 3: Update the 'cars' field by adding the new car string to the array
+        user.cars.push(newCar);
+
+        // Save the updated user document to the database
+        await user.save();
+
+        console.log('User updated successfully');
+    } catch (error) {
+        console.error('Error updating user:', error);
+    }
 }

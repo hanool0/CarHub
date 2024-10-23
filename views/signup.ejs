@@ -1,30 +1,47 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>CarHub</title>
-    <link href="/stylesheets/signup.css" rel="stylesheet" />
-  </head>
 
-  <body>
-    <div class="container">
-      <div class="form-box">
-        <p style = "font-size: 20px">Create your account</p>
-        <form action="/signup" method="post" >
-          <div class ="input-group"><input placeholder="Name" name="username" type="text"></div>
-          <br>
-          <div class ="input-group"><input placeholder="Password" name="password" type="password"></div>
-          <br>
-          <div class ="input-group"><input placeholder="Confirm Password" name="confirmPassword" type="password"></div>
-          <br>
-          <button class="button" type="submit">Create Account</button>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>CarHub</title>
+  <link href="/stylesheets/signup.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="form-box">
+      <p style="font-size: 20px">Create your account</p>
+      <form action="/signup" method="post" id = "signupForm">
+        <div class="input-group"><input placeholder="Name" name="username" type="text" id = "username"></div>
+        <br>
+        <div class="input-group"><input placeholder="Password" name="password" type="password" id = "password"></div>
+        <br>
+        <div class="input-group"><input placeholder="Confirm Password" name="confirmPassword" type="password" id = "confirmPassword"></div>
+        <br>
+        <button class="button" type="submit">Create Account</button>
       </form>
-          
-      </div>
+
     </div>
-  </body>
-  <script>
-    
-  </script>
+  </div>
+</body>
+<script>
+  const form = document.getElementById('signupForm');
+
+  // Add an event listener to the form submit event
+  form.addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the form from actually submitting
+
+    // Get values from the form fields
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value; 
+
+    // Store the values in localStorage (you could also use sessionStorage)
+    localStorage.setItem('username', username);
+    localStorage.setItem('password', password);
+    form.submit();
+  })
+</script>
+
 </html>

@@ -7,28 +7,36 @@
 </head>
 
 <body>
-    <div class = "container">
-    <div class = "search-container">
-    <div class="search">
-        <input type="text" class = "search-bar" placeholder="Enter a car model" spellcheck="false" id="modelInput">
-        <button class="newuser" id="searchButton">FindCar</button>
-    </div>
-    </div>
-    <div>
-        <div id="carDetails">
-        
-            
-    
+    <div class="container">
+        <div class="search-container">
+            <div class="search">
+                <input type="text" class="search-bar" placeholder="Enter a car model" spellcheck="false"
+                    id="modelInput">
+                <button class="newuser" id="searchButton">FindCar</button>
+            </div>
         </div>
-        <button id="addCar">Add Car</button>
+        <div>
+            <div id="carDetails">
+
+
+
+            </div>
+            <button class="addCar" button id="addCar">Add Car</button>
+        </div>
     </div>
-</div>
 </body>
 <script>
     let car = null;
     document.getElementById('addCar').addEventListener('click', () => {
+        const carDetailsDiv = document.getElementById('carDetails');
         if (!car) return;
-        fetch(`/storeCar?model=${car}`)
+        fetch(`/makeCar`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: localStorage.getItem('username'), password: localStorage.getItem('password'), model: car })
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -42,12 +50,7 @@
                 }
 
                 // Display the car details
-                carDetailsDiv.innerHTML =
-                    `<h3>Car Details:</h3>
-                        <p><strong>Make:</strong> ${data.make}</p>
-                        <p><strong>First year released:</strong> ${data.year}</p>
-                        <p><strong>Drivetrain:</strong> ${data.drive}</p>`
-                    ;
+                document.getElementById("addCar").innerHTML = data.message
             })
             .catch(error => {
                 console.error('Error fetching car data:', error);

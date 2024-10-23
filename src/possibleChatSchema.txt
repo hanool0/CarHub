@@ -1,0 +1,7 @@
+{
+    "users": [String],
+    "messages": [{
+        "sender": String,
+        "message": String
+    }]
+}
