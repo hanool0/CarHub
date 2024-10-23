@@ -32,11 +32,14 @@ async function getCar(model) {
   const url = 'https://api.api-ninjas.com/v1/cars';
   const apiKey = 'yiR+VnnJGsxdG7Tc8bsQ1A==6KNGDh3zIXneFKSd';
 
+  console.log(model); // Corrected variable name
   try {
     const response = await axios.get(url, {
-      params: { model },
+      params: { model }, // Correctly passing model as a parameter
       headers: { 'X-Api-Key': apiKey },
     });
+
+    console.log(response); // For debugging purposes
 
     if (response.status !== 200) {
       throw new Error(`Status Code car body: ${response.status}`);
@@ -47,7 +50,19 @@ async function getCar(model) {
       throw new Error('No car data found for the given model.');
     }
 
-    const {make, year, city_mpg, combination_mpg, highway_mpg, cylinders, displacement, drive, model} = data[0];
+    const {
+      make,
+      year,
+      city_mpg,
+      combination_mpg,
+      highway_mpg,
+      cylinders,
+      displacement,
+      drive,
+    } = data[0];
+
+    const carModel = data[0].model;
+
     return {
       make,
       year,
@@ -57,10 +72,10 @@ async function getCar(model) {
       cylinders,
       displacement,
       drive,
-      model,
+      model: carModel
     };
   } catch (error) {
-    console.error('car body error occurred', error);
+    console.error('Car body error occurred:', error); // Improved error logging
   }
 }
 module.exports = getCar

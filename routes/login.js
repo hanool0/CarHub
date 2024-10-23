@@ -27,7 +27,7 @@ router.get('/home', (req, res) => {
 router.get('/noobie', (req, res) => {
     let passedVariable = null;
     if (req.query && req.query.valid) {
-        passedVariable = JSON.parse(req.query.valid)||null;
+        passedVariable = JSON.parse(req.query.valid) || null;
     }
 
     res.render('noobie', { title: "noobie", passedVariable });
@@ -41,11 +41,16 @@ router.post('/login', async (req, res) => {
     console.log(JSON.stringify(req.body))             //turns json data into string 
     let { username, password } = req.body            //gets username and password into req.body.username & req.body.password
     let successLogin = JSON.stringify(await loginCheck(username, password))
-    if (successLogin.status) {
+    console.log(successLogin.status);
+    if (JSON.parse(successLogin).status) {
+        console.log("step1");
         res.status(200).redirect('/home?valid=' + successLogin);
+
     }
     else {
+        console.log("step2");
         res.status(400).json(successLogin)
+
     }
 
 })
@@ -53,7 +58,7 @@ router.post('/signup', async (req, res) => {
     let { username, password, confirmPassword } = req.body
     let successSignup = JSON.stringify(await signup(username, password, confirmPassword))
     console.log(JSON.stringify(req.body))
-    if (successSignup.status) {
+    if (JSON.parse(successSignup).status) {
         res.status(200).redirect('/noobie?valid=' + successSignup);
     }
     else {
