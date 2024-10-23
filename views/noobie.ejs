@@ -14,13 +14,46 @@
         <button class="newuser" id="searchButton">FindCar</button>
     </div>
     </div>
-    <div id="carDetails">
-   
-
+    <div>
+        <div id="carDetails">
+        
+            
+    
+        </div>
+        <button id="addCar">Add Car</button>
     </div>
 </div>
 </body>
 <script>
+    let car = null;
+    document.getElementById('addCar').addEventListener('click', () => {
+        if (!car) return;
+        fetch(`/storeCar?model=${car}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    carDetailsDiv.innerHTML = `<p class="error">${data.error}</p>`;
+                    return;
+                }
+
+                // Display the car details
+                carDetailsDiv.innerHTML =
+                    `<h3>Car Details:</h3>
+                        <p><strong>Make:</strong> ${data.make}</p>
+                        <p><strong>First year released:</strong> ${data.year}</p>
+                        <p><strong>Drivetrain:</strong> ${data.drive}</p>`
+                    ;
+            })
+            .catch(error => {
+                console.error('Error fetching car data:', error);
+                carDetailsDiv.innerHTML = `<p class="error">Failed to fetch car data. Please try again.</p>`;
+            });
+    })
     document.getElementById('searchButton').addEventListener('click', () => {
         console.log('click')
         const modelInput = document.getElementById('modelInput').value.trim();
@@ -53,6 +86,7 @@
                     carDetailsDiv.innerHTML = `<p class="error">${data.error}</p>`;
                     return;
                 }
+                car = data.model
 
                 // Display the car details
                 carDetailsDiv.innerHTML =

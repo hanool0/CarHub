@@ -47,7 +47,7 @@ async function getCar(model) {
       throw new Error('No car data found for the given model.');
     }
 
-    const {make, year, city_mpg, combination_mpg, highway_mpg, cylinders, displacement, drive} = data[0];
+    const {make, year, city_mpg, combination_mpg, highway_mpg, cylinders, displacement, drive, model} = data[0];
     return {
       make,
       year,
@@ -57,6 +57,7 @@ async function getCar(model) {
       cylinders,
       displacement,
       drive,
+      model,
     };
   } catch (error) {
     console.error('car body error occurred', error);

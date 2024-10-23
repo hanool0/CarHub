@@ -1,41 +1,61 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>CarHub</title>
-    <link href="stylesheets/login.css" rel="stylesheet" type="text/css" />
-    <script defer src="/js/login.js"></script>
-  </head>
 
-  <body class="login">
-    <div class="container">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>CarHub</title>
+  <link href="stylesheets/login.css" rel="stylesheet" type="text/css" />
+  <script defer src="/js/login.js"></script>
+</head>
+
+<body class="login">
+  <div class="container">
+    <br>
+    <h2 class="text-center">CarHub</h2>
+    <div class=form-box>
+      <form action="/login" class="loginForm" method="post" id="loginForm">
+        <h2 class="text-center">Login</h2>
+        <div class="input-group">
+          <label for="username" class="label">
+            <p style="font-size: 20px">Username:
+          </label></p>
+          <input type="text" name="username" id="username" class="input">
+          <span class="error-message"></span>
+        </div>
         <br>
-      <h2 class="text-center">CarHub</h2>
-      <div class = form-box>
-        <form action="/login" class="loginForm" method="post">
-          <h2 class="text-center">Login</h2>
-            <div class="input-group">
-                <label for="username" class="label"><p style = "font-size: 20px">Username:</label></p>
-                <input type="text" name="username"id="username" class="input">
-                <span class="error-message"></span>
-            </div>
-            <br>
-            <div class="input-group">
-                <label for="password" class="label"><p style = "font-size: 20px">Password:</label></p>
-                <input type="password" name="password"id="password" class="input">
-                <span class="error-message"></span>
-            </div>
-            <br>
-            <button class="button" type="submit">Login</button>
-            <a href = "/signup">Make a new account</a>
-        </form>
-      </div>
+        <div class="input-group">
+          <label for="password" class="label">
+            <p style="font-size: 20px">Password:
+          </label></p>
+          <input type="password" name="password" id="password" class="input">
+          <span class="error-message"></span>
+        </div>
+        <br>
+        <button class="button" type="submit">Login</button>
+        <a href="/signup">Make a new account</a>
+      </form>
     </div>
-    </body>
+  </div>
+</body>
 
-    <script>
+<script>
+  
+  const form = document.getElementById('loginForm');
 
-    </script>
-  </body>
+  // Add an event listener to the form submit event
+  form.addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the form from actually submitting
+
+    // Get values from the form fields
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // Store the values in localStorage (you could also use sessionStorage)
+    localStorage.setItem('username', username);
+    localStorage.setItem('password', password);
+  })
+</script>
+</body>
+
 </html>
