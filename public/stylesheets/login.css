@@ -4,23 +4,22 @@ html {
   margin: 0;
   font-size: 40px;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
   background-image: url(corvette.png);
   background-position: center;
   background-size: cover;
 }
-
+body{
+font-family: 'Poppins', sans-serif;
+}
 .container {
   width: 100%;
   max-width: 400px;
   background-color: #f9f9f9;
   padding: 30px;
-  margin: 50px auto;
+  margin: 60px auto;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  
-  
 }
 
 .container h2 {
@@ -48,6 +47,7 @@ html {
   border: 1px solid #ccc;
   font-size: 16px;
   transition: border 0.3s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 .input-group input:focus {
@@ -63,7 +63,9 @@ html {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
+  font-family: 'Poppins', sans-serif;
 }
 .button:hover {
   background-color: #2980b9;
 }
+

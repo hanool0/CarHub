@@ -24,7 +24,7 @@ userSchema.pre('save', async function (next) {
 
         const salt = await bcrypt.genSalt(10);  
 
-        const hashedPassword = await bcrypt.hash(this.password, salt); //turns the password random characters to prevent attacks from outside parties
+        const hashedPassword = await bcrypt.hash(this.password, salt); //turns the password into random characters to prevent attacks from outside parties
 
         this.password = hashedPassword;
 

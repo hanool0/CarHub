@@ -1,60 +1,74 @@
-.newuser{
-    background-color: #3498db;
-    border: none;
-    color: white;
-    padding: 12px 24px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    border-radius: 12px;
-    transition: background-color 0.3s ease;
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+}
+
+
+.newuser {
+  background-color: #3498db;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+}
+
+a{
+  color: white;
 }
 
 .container {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    padding: 20px;
-    max-width: 500px;
-    margin: 20px auto;
-  }
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+}
 
-  .search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px;
-  }
-  
-  .search-bar{
-    width: 300px;
-    padding: 10px 20px;
-    border-radius: 25px;
-    border: 2px solid #ccc;
-    font-size: 16px;
-    outline: none;
-    transition: border 0.3s ease;
-  }
-  
-  .search:focus {
-    border-color: #3498db;
-  }
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
 
-  .addCar{
-    padding: 12px;
-    background-color: #3498db;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
-  .addCar:hover {
-    background-color: #2980b9;
-  }
-  
-  
+.search-bar {
+  width: 300px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: 2px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  transition: border 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+
+}
+
+.search:focus {
+  border-color: #3498db;
+}
+
+.addCar {
+  padding: 12px;
+  background-color: #3498db;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.addCar:hover {
+  background-color: #2980b9;
+}

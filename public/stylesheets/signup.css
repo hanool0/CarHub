@@ -46,6 +46,7 @@ html {
   border: 1px solid #ccc;
   font-size: 16px;
   transition: border 0.3s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 .input-group input:focus {
@@ -61,6 +62,7 @@ html {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
+  font-family: 'Poppins', sans-serif;
 }
 .button:hover {
   background-color: #2980b9;

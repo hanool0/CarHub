@@ -6,6 +6,7 @@
   <title>Home</title>
   <!-- Include your stylesheet -->
   <link rel="stylesheet" href="/stylesheets/home.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -19,12 +20,15 @@
   <a href="/noobie">Add Car</a>
   <h1>Message Everyone</h1>
 
-  <div id="messages"></div>
-
-  <form id="messageForm">
-    <input id="messageInput" autocomplete="off" placeholder="Type your message here..." />
-    <button>Send</button>
-  </form>
+  <div class="chat-container">
+    <form id="messageForm">
+      <div class="input-group">
+        <input id="messageInput" autocomplete="off" placeholder="Type your message here..." />
+        <button class="send-message">Send</button>
+      </div>
+    </form>
+    <div id="messages"></div>
+  </div>
 
   <!-- Include Socket.io client library -->
   <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" crossorigin="anonymous"></script>
@@ -32,7 +36,7 @@
   <!-- Your main JavaScript code should be here, before the closing body tag -->
   <script>
     // Wait for the DOM to fully load
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const userCardTemplate = document.querySelector("[data-user-template]");
       const userCardContainer = document.querySelector("[data-user-cards-container]");
       const apiUrl = "https://api.api-ninjas.com/v1/cars?limit=2&model=";
@@ -43,7 +47,7 @@
       const messagesDiv = document.getElementById('messages');
 
       // Event delegation for elements with class 'username'
-      messagesDiv.addEventListener('click', function(event) {
+      messagesDiv.addEventListener('click', function (event) {
         if (event.target && event.target.classList.contains('username')) {
           const messageContent = event.target.textContent.trim();
           console.log(messageContent + ' clicked');
@@ -76,7 +80,7 @@
       const form = document.getElementById('messageForm');
       const input = document.getElementById('messageInput');
 
-      form.addEventListener('submit', function(e) {
+      form.addEventListener('submit', function (e) {
         e.preventDefault(); // Prevent form from refreshing the page
 
         const message = { message: input.value, sender: localStorage.getItem('username') };
@@ -88,7 +92,7 @@
       });
 
       // Listen for 'otherMessage' events from the server
-      socket.on('otherMessage', function(data) {
+      socket.on('otherMessage', function (data) {
         // Display the received message
         let p = document.createElement('p'); // <p></p>
         let n = document.createElement('button');

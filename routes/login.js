@@ -43,7 +43,7 @@ router.post('/makeCar', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     updateUser(username, password, req.body.model)
-    res.status(200).json({ message: "Everything went fine" })
+    res.status(200).json({ message: "Car added!" })
 })
 router.post('/login', async (req, res) => {
     let { username, password } = req.body            //gets username and password into req.body.username & req.body.password
