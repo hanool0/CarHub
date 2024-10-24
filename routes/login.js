@@ -9,6 +9,7 @@ const mongoURI = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MO
 const bcrypt = require('bcrypt');
 mongoose.connect(mongoURI)
     .then((data) => {
+        console.log('mongodb connected')
     })
     .catch(err => console.log("err"));
 
@@ -18,9 +19,11 @@ router.get('/login', (req, res) => {
 router.get('/signup', (req, res) => {
     res.render('signup', { title: "signup" });
 })
-router.get('/home', (req, res) => {
-    let passedVariable = JSON.parse(req.query.valid);
-
+router.get('/', (req, res) => {
+    let passedVariable = null;
+    if (req.query && req.query.valid){
+        passedVariable = JSON.parse(req.query.valid);
+    }
     res.render('home', { title: "home", passedVariable });
 })
 router.get('/noobie', (req, res) => {
@@ -46,7 +49,7 @@ router.post('/login', async (req, res) => {
     let { username, password } = req.body            //gets username and password into req.body.username & req.body.password
     let successLogin = JSON.stringify(await loginCheck(username, password))
     if (JSON.parse(successLogin).status) {
-        res.status(200).redirect('/home?valid=' + successLogin);
+        res.status(200).redirect('/?valid=' + successLogin);
 
     }
     else {
@@ -66,6 +69,12 @@ router.post('/signup', async (req, res) => {
     }
 
 })
+router.get('/models', async (req, res) => {
+    let username = req.query.username;
+    let getUserModel = await User.findOne({ username: username});
+    console.log((getUserModel))
+    res.status(200).json({ getUserModel: getUserModel.cars, username });
+})
 
 module.exports = router;
 
@@ -83,6 +92,7 @@ async function signup(username, password, confirmPassword) {
 }
 async function loginCheck(username, password) {
     const getUser = await User.findOne({ username: username });
+    console.log(getUser)
     if (!getUser) {
         return { status: false, message: "Unknown username" }
     }

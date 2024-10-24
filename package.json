@@ -20,9 +20,11 @@
     "express": "^4.21.1",
     "hbs": "^4.2.0",
     "html": "^1.0.0",
+    "http": "^0.0.1-security",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.2",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "socket.io": "^4.8.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

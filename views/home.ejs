@@ -1,59 +1,111 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/stylesheets/home.css">
-  <script src="script.js" defer></script>
   <title>Home</title>
+  <!-- Include your stylesheet -->
+  <link rel="stylesheet" href="/stylesheets/home.css">
 </head>
-  <body>
-    <div class="search-wrapper">
-      <label for="search">Search Users</label>
-      <input type="search" id="search" data-search>
+
+<body>
+  <div class="user-cards" data-user-cards-container></div>
+  <template data-user-template>
+    <div class="card">
+      <div class="header" data-header></div>
+      <div class="body" data-body></div>
     </div>
-    <div class="user-cards" data-user-cards-container></div>
-    <template data-user-template>
-      <div class="card">
-        <div class="header" data-header></div>
-        <div class="body" data-body></div>
-      </div>
-    </template>
-    <a href = "/profile">Profile</a>
-  </body>
-  
-<script>
-  const userCardTemplate = document.querySelector("[data-user-template]")
-  const userCardContainer = document.querySelector("[data-user-cards-container]")
-  const searchInput = document.querySelector("[data-search]")
-  const apiUrl = "https://api.api-ninjas.com/v1/cars?limit=2&model="
-  const apiKey = "yiR+VnnJGsxdG7Tc8bsQ1A==6KNGDh3zIXneFKSd"
+  </template>
+  <a href="/noobie">Add Car</a>
+  <h1>Message Everyone</h1>
 
-  let users = []
+  <div id="messages"></div>
 
-  searchInput.addEventListener("input", e => {
-    const value = e.target.value.toLowerCase()
-    users.forEach(user => {
-      const isVisible =
-        user.name.toLowerCase().includes(value) ||
-        user.email.toLowerCase().includes(value)
-      user.element.classList.toggle("hide", !isVisible)
-    })
-  })
+  <form id="messageForm">
+    <input id="messageInput" autocomplete="off" placeholder="Type your message here..." />
+    <button>Send</button>
+  </form>
 
-  fetch("https://jsonplaceholder.typicode.com/users")
-    .then(res => res.json())
-    .then(data => {
-      users = data.map(user => {
-        const card = userCardTemplate.content.cloneNode(true).children[0]
-        const header = card.querySelector("[data-header]")
-        const body = card.querySelector("[data-body]")
-        header.textContent = user.name
-        body.textContent = user.email
-        userCardContainer.append(card)
-        return { name: user.name, email: user.email, element: card }
-      })
-    })
-</script>
+  <!-- Include Socket.io client library -->
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" crossorigin="anonymous"></script>
+
+  <!-- Your main JavaScript code should be here, before the closing body tag -->
+  <script>
+    // Wait for the DOM to fully load
+    document.addEventListener('DOMContentLoaded', function() {
+      const userCardTemplate = document.querySelector("[data-user-template]");
+      const userCardContainer = document.querySelector("[data-user-cards-container]");
+      const apiUrl = "https://api.api-ninjas.com/v1/cars?limit=2&model=";
+      const apiKey = "your_api_key"; // Replace with your actual API key
+      let users = [];
+
+      // Reference to the messages div
+      const messagesDiv = document.getElementById('messages');
+
+      // Event delegation for elements with class 'username'
+      messagesDiv.addEventListener('click', function(event) {
+        if (event.target && event.target.classList.contains('username')) {
+          const messageContent = event.target.textContent.trim();
+          console.log(messageContent + ' clicked');
+          fetch(`/models?username=${messageContent}`)
+            .then(res => res.json())
+            .then(data => {
+              const card = userCardTemplate.content.cloneNode(true).children[0];
+              const header = card.querySelector("[data-header]");
+              const body = card.querySelector("[data-body]");
+
+              function displayModel() {
+                let models = data.getUserModel.map(user => {
+                  header.textContent = data.username;
+                  let p = document.createElement('p');
+                  p.textContent = user;
+                  body.appendChild(p);
+                });
+                card.appendChild(body);
+                return { name: data.username, model: models };
+              }
+
+              userCardContainer.append(card);
+              users.push(displayModel());
+            });
+        }
+      });
+
+      // Handle form submission to send a message
+      const socket = io();
+      const form = document.getElementById('messageForm');
+      const input = document.getElementById('messageInput');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent form from refreshing the page
+
+        const message = { message: input.value, sender: localStorage.getItem('username') };
+
+        // Send 'message' event to the server
+        socket.emit('message', message);
+
+        input.value = '';
+      });
+
+      // Listen for 'otherMessage' events from the server
+      socket.on('otherMessage', function(data) {
+        // Display the received message
+        let p = document.createElement('p'); // <p></p>
+        let n = document.createElement('button');
+        n.className = 'username';
+        let messageParent = document.createElement('div');
+        messageParent.className = 'messageParent';
+        n.textContent = data.sender;
+        console.log(data);
+        p.textContent = data.message; // { message: 'hello', sender: 'aron oh' }
+        messageParent.appendChild(n);
+        messageParent.appendChild(p);
+        messagesDiv.appendChild(messageParent);
+      });
+    });
+  </script>
+
+  <!-- Include your script.js if it contains other necessary code -->
+</body>
+
 </html>
